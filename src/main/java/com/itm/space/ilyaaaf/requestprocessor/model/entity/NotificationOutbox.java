@@ -47,9 +47,11 @@ public class NotificationOutbox {
     private String value;
 
     @Column(nullable = false)
+    @Comment("Флаг отправки")
     private Boolean sent = false;
 
     @Column(nullable = false)
+    @Comment("Количество попыток отправки")
     private Integer attempt = 1;
 
 
