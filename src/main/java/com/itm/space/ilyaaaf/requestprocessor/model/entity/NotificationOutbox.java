@@ -26,7 +26,7 @@ public class NotificationOutbox {
 
     @Id
     @Comment("Уникальный идентификатор события")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @CreationTimestamp

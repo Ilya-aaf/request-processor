@@ -1,4 +1,4 @@
-package com.itm.space.ilyaaaf.requestprocessor.controller;
+package com.itm.space.ilyaaaf.requestprocessor.controller.doc;
 
 import com.itm.space.ilyaaaf.requestprocessor.constant.ApiConstant;
 import com.itm.space.ilyaaaf.requestprocessor.model.request.NotificationRequest;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface NotificationController {
 
     @PostMapping
-    public ResponseEntity<Void> sendNotification(@Valid @RequestBody NotificationRequest request);
+    ResponseEntity<Void> sendNotification(@Valid @RequestBody NotificationRequest request);
 
 }
+

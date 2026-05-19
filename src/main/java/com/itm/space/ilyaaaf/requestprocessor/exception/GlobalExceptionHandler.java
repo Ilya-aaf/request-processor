@@ -1,11 +1,13 @@
 package com.itm.space.ilyaaaf.requestprocessor.exception;
 
 import com.itm.space.ilyaaaf.requestprocessor.model.response.HttpErrorResponse;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -30,6 +32,15 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 errorMessage, ex);
 
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<HttpErrorResponse> handleIllegalArgumentException(Exception ex) {
+
+        return buildErrorResponse(HttpStatus.BAD_REQUEST,
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                ex);
     }
 
     @ExceptionHandler(Exception.class)
