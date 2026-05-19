@@ -41,8 +41,7 @@ public abstract class AbstractNotificationStrategy implements NotificationStrate
                 .setKey(key.toString())
                 .setValue(payload)
                 .setSent(false)
-                .setAttempt(1)
-                .setCreatedAt(LocalDateTime.now());
+                .setAttempt(1);
     }
 
     private String convertToJson(Object obj) {
