@@ -1,16 +1,17 @@
 package com.itm.space.ilyaaaf.requestprocessor.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.itm.space.ilyaaaf.requestprocessor.model.response.HttpErrorResponse;
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestControllerAdvice
@@ -32,6 +33,19 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 errorMessage, ex);
 
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<HttpErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        String errorMessage = "Неверный формат JSON в теле запроса";
+
+        if (ex.getCause() instanceof InvalidFormatException err && err.getTargetType() != null && err.getTargetType().isEnum()) {
+            errorMessage = String.format("Недопустимое значение '%s'. Ожидались только: %s",
+                    err.getValue(),
+                    Arrays.toString(err.getTargetType().getEnumConstants()));
+        }
+
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.getReasonPhrase(), errorMessage, ex);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
